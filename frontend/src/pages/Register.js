@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -7,11 +9,32 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const registerUser = () => {
-    const userObj = {
-      name, password, email, confirmPassword,
+  const registerUser = async () => {
+    if (password === confirmPassword) {
+
+
+      const userObj = {
+        name, 
+        password, 
+        email, 
+      };
+
+      try {
+
+        const response = await axios.post("/api/auth/register", userObj)
+        if (response.data.success) {
+          toast.success(response.data.message)
+        } else {
+          toast.error(response.data.message)
+        }
+      } catch (error) {
+
+      }
+    } else {
+      toast.error('Password Not Matched')
     }
   };
+
 
   return (
     <div className='flex justify-center items-center h-screen'>
@@ -34,14 +57,14 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <input type='text'
+        <input type='password'
           className='py-1 px-3 border-2 border-secondary rounded focus:outline-none w-full'
           placeholder='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <input type='text'
+        <input type='password'
           className='py-1 px-3 border-2 border-secondary rounded focus:outline-none w-full'
           placeholder='confirm password'
           value={confirmPassword}

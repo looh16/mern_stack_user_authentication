@@ -102,6 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+<<<<<<< HEAD
 
 #connections
 .env
+=======
+>>>>>>> register_page
