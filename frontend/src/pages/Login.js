@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-hot-toast'
 
@@ -9,25 +9,26 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const navigate = useNavigate();
   const loginUser = async () => {
     const userObj = {
-      password, email,
+      password,
+      email,
     };
-
-    if(userObj){
-      try {
-        toast.loading("Loading...");
-        const response = await axios.post("/api/auth/login", userObj);
-        toast.dismiss();
-        if (response.data.success) {
-          toast.success(response.data.message);
-        } else {
-          toast.error(response.data.message);
-        }
-      } catch (error) {
-        toast.dismiss();
-        toast.error("Something went wrong");
+    try {
+      toast.loading("Loading...");
+      const response = await axios.post("/api/auth/login", userObj);
+      toast.dismiss();
+      if (response.data.success) {
+        toast.success(response.data.message);
+        localStorage.setItem("user", response.data.data);
+        navigate("/");
+      } else {
+        toast.error(response.data.message);
       }
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Something went wrong");
     }
   };
 
