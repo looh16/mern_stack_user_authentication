@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import axios from "axios";
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -12,26 +12,32 @@ const Register = () => {
   const registerUser = async () => {
     if (password === confirmPassword) {
 
-
       const userObj = {
-        name, 
-        password, 
-        email, 
+        name,
+        password,
+        email,
+        confirmPassword,
       };
 
-      try {
+      if (userObj) {
 
-        const response = await axios.post("/api/auth/register", userObj)
-        if (response.data.success) {
-          toast.success(response.data.message)
-        } else {
-          toast.error(response.data.message)
+        try {
+         // toast.loading("Loading...");
+          const response = await axios.post("/api/auth/register", userObj);
+          toast.dismiss();
+          if (response.data.success) {
+            toast.success(response.data.message);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.dismiss();
+          toast.error("Something went wrong");
         }
-      } catch (error) {
 
       }
     } else {
-      toast.error('Password Not Matched')
+      toast.error("Passwords Not Matched");
     }
   };
 
