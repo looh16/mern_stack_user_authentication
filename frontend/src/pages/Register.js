@@ -22,7 +22,7 @@ const Register = () => {
       if (userObj) {
 
         try {
-         // toast.loading("Loading...");
+          toast.loading("Loading...");
           const response = await axios.post("/api/auth/register", userObj);
           toast.dismiss();
           if (response.data.success) {
