@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 
 router.post("/register", async (req, res) => {
     try {
@@ -33,9 +35,17 @@ router.post("/login", async (req, res) => {
         if (user) {
             const passworddMached = await bcrypt.compare(req.body.password, user.password);
             if(passworddMached){
-                res.status(200).send({ success: true, message: "User Login SUccessfully", data: user })
+                const dataToBeSentToFrontend = {
+                    _id: user._id,
+                    email: user.email,
+                    name: user.name,
+                  };
+                  const token = jwt.sign(dataToBeSentToFrontend, "CSL", {
+                    expiresIn: 60 * 60,
+                  });
+                res.status(200).send({ success: true, message: "User Login SUccessfully", data: token })
             } else{
-                res.status(200).send({ success: true, message: "Incorrect Password", data: user })
+                res.status(200).send({ success: true, message: "Incorrect Password"})
             }
         } else {
             res.status(200).send({ success: true, message: "User not Found", data: null })
