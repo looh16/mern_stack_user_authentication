@@ -39,7 +39,11 @@ const Home = () => {
 
 
   return (
-    <div>Home</div>
+    userInfo !== null && (
+      <div className="flex items-center justify-center min-h-screen">
+        <h1 className="text-5x1 font-semibold text-primary">{userInfo?.email}</h1>
+      </div>
+    )
   )
 }
 
