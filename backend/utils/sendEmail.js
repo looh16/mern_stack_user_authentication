@@ -2,6 +2,8 @@ const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const Token = require("../models/tokenModel");
 const base_url = process.env.BASE_URL;
+const email = process.env.EMAIL;
+
 
 module.exports = async (user, mailType) => {
   try {
@@ -12,7 +14,7 @@ module.exports = async (user, mailType) => {
       secure: true,
       auth: {
         user: "langacustodio@gmail.com",
-        pass: "", //change this to your password
+        pass: `${email}`, //change this to your password
       },
     });
 
