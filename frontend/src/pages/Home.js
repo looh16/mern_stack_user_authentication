@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
-
-const Home = () => {
+function Home() {
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
-
   const getData = async () => {
     toast.loading();
     try {
@@ -37,14 +35,29 @@ const Home = () => {
     }
   }, [userInfo]);
 
-
   return (
     userInfo !== null && (
       <div className="flex items-center justify-center min-h-screen">
-        <h1 className="text-5x1 font-semibold text-primary">{userInfo?.email}</h1>
+        <div className="flex flex-col space-y-5">
+          <h1 className="text-5xl font-semibold text-primary">
+            {userInfo?.name}
+          </h1>
+          <h1 className="text-5xl font-semibold text-primary">
+            {userInfo?.email}
+          </h1>
+          <button
+            className="border border-primary px-10 py-2 text-primary max-w-max"
+            onClick={() => {
+              localStorage.clear();
+              navigate("/login");
+            }}
+          >
+            LOGOUT
+          </button>
+        </div>
       </div>
     )
-  )
+  );
 }
 
-export default Home
+export default Home;

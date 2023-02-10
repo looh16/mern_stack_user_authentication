@@ -41,13 +41,13 @@ router.post("/login", async (req, res) => {
         user.password
       );
       if (passwordsMached) {
-        if (user.isVerifed) {
+        if (user.isVerified) {
           const dataToBeSentToFrontend = {
             _id: user._id,
             email: user.email,
             name: user.name,
           };
-          const token = jwt.sign(dataToBeSentToFrontend, "SHEY", {
+          const token = jwt.sign(dataToBeSentToFrontend, "CSL", {
             expiresIn: 60 * 60,
           });
           res.status(200).send({
@@ -109,7 +109,8 @@ router.post("/verifyemail", async (req, res) => {
   
     const tokenData = await Token.findOne({ token: req.body.token });
     if (tokenData) {
-      await User.findOneAndUpdate({ _id: tokenData.userid, isVerifed: true });
+      await User.findOneAndUpdate({ _id: tokenData.userid, isVerified: true });
+      
       await Token.findOneAndDelete({ token: req.body.token });
       res.send({ success: true, message: "Email Verified Successlly" });
     } else {
