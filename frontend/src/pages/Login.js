@@ -12,6 +12,25 @@ function Login() {
       password,
       email,
     };
+    if(!email || !password) {
+      toast.dismiss();
+      toast.error("Please fill all fields");
+      return false
+    } 
+    try {
+      toast.loading("Loading...");
+      const response = await axios.post("/api/auth/login", userObj);
+      toast.dismiss();
+      if (response.data.success) {
+        toast.success(response.data.message);
+        navigate("/");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.dismiss();
+      toast.error("Something went wrong");
+    }
     try {
       toast.loading("Loading...");
       const response = await axios.post("/api/auth/login", userObj);

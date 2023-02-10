@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
 const Token = require("../models/tokenModel");
+const base_url = process.env.BASE_URL;
 
 module.exports = async (user, mailType) => {
   try {
@@ -26,7 +27,7 @@ module.exports = async (user, mailType) => {
 
     let emailContent, mailOptions;
     if (mailType == "verifyemail") {
-      emailContent = `<div><h1>Please click on the below link to verify your email address</h1> <a href="http://localhost:3000/verifyemail/${encryptedToken}">${encryptedToken}</a>  </div>`;
+      emailContent = `<div><h1>Please click on the below link to verify your email address</h1> <a href="${base_url}/verifyemail/${encryptedToken}">${encryptedToken}</a>  </div>`;
 
       mailOptions = {
         from: "langacustodio@gmail.com",
@@ -35,7 +36,7 @@ module.exports = async (user, mailType) => {
         html: emailContent,
       };
     } else {
-      emailContent = `<div><h1>Please click on the below link to reset your password</h1> <a href="http://localhost:3000/resetpassword/${encryptedToken}">${encryptedToken}</a>  </div>`;
+      emailContent = `<div><h1>Please click on the below link to reset your password</h1> <a href="${base_url}/resetpassword/${encryptedToken}">${encryptedToken}</a>  </div>`;
 
       mailOptions = {
         from: "langacustodio@gmail.com",

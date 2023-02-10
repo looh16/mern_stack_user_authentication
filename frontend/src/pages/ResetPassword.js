@@ -9,6 +9,12 @@ function ResetPassword() {
   const params = useParams();
   const navigate = useNavigate();
   const resetPassword = async () => {
+    if(!password || !confirmpassword) {
+      toast.dismiss();
+      toast.error("Please fill all fields");
+      return false
+    }
+   
     try {
       toast.loading();
       const response = await axios.post("/api/auth/reset-password", {

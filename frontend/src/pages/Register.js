@@ -9,6 +9,11 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const registerUser = async () => {
+    if(!name || !email || !password || !confirmPassword) {
+      toast.dismiss();
+      toast.error("Please fill all fields");
+      return false
+    } 
     if (password === confirmPassword) {
       const userObj = {
         name,
